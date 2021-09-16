@@ -1,6 +1,11 @@
 const app = require("express")();
 const http = require("http").Server(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+    cors: {
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"]
+    }
+});
 let users = [];
 let messages = [];
 let index = 0;
@@ -13,7 +18,7 @@ io.on("connection", socket => {
 
     //New user join
     socket.on("newuser", username => {
-        console.log(`${username} arrive the party.`);
+        console.log(`${username} arrive at the party.`);
         socket.username = username;
         users.push(socket);
 
